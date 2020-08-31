@@ -6,11 +6,6 @@ from .strings import ARTIST_ROLE
 from ..orders.models import Order
 
 
-@periodic_task(run_every=(crontab(minute='*/1')), name="check_cel")
-def check_cel():
-    print('Celery works')
-
-
 @periodic_task(run_every=(crontab(minute=0, hour=9)), name="send_top_orders")
 def send_top_orders():
     """Send top of orders for artists every day"""
