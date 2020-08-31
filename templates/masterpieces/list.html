@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if artist %}
+        {% include "../users/user_detail.html" with user=artist %}
+    {% endif %}
+    <br>
+    <div>
+        {% if not artist %}
+            <a class="btn btn-primary btn-lg btn-block" role="button"
+               href="{% url 'masterpieces:create-masterpiece' %}">
+                Create new
+            </a>
+        {% endif %}
+        <div class="list-header d-flex justify-content-center">
+            <div>Masterpieces</div>
+        </div>
+        {% include "../components/search.html" %}
+        <div class="list">
+            {% for masterpiece in masterpieces %}
+                <a href="{% url 'masterpieces:masterpiece-detail' pk=masterpiece.id %}"
+                   class="list-card content-width-80" title="See more">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="order-title">{{ masterpiece.title|capfirst|truncatechars:70 }}</div>
+                            <div class="order-description">{{ masterpiece.description|capfirst|truncatechars:240 }}</div>
+                            <div class="order-tags">
+                                {% for tag in masterpiece.tags.all %}
+                                    <span class="badge badge-pill badge-info">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="order-information">
+                                <div>Created at: <strong>{{ masterpiece.created_at }}</strong></div>
+                            </div>
+                            {% if not masterpiece.visible %}
+                                <div class="order-information badge badge-pill badge-info">Invisible</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <strong class="d-flex justify-content-center">No masterpieces yet</strong>
+            {% endfor %}
+            {% include "../components/pagination.html" %}
+        </div>
+    </div>
+{% endblock %}

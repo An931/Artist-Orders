@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <p class="welcome-message">Welcome!</p>
+    {% if user.is_authenticated %}
+        <div class="site-info">
+            <p>Hello, {{ user.get_username }}!
+                You are {{ user.role.lower }}.</p>
+            <p>Thanks for logging in.</p>
+        </div>
+    {% else %}
+        <div class="site-info">
+            <p>Hello, new user! Please log in.
+            <p>
+        </div>
+    {% endif %}
+    <div class="site-info">
+        <p>This is a simple site for both artists and users who need
+            specific art.
+            User can place an order for art and artists can respond if they
+            can complete user order.</p>
+    </div>
+{% endblock %}

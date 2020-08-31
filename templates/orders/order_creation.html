@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-width">
+        <p class="form-message">Create your order</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <table class="order-creation-form">
+                    {{ form.as_table }}
+                </table>
+                <input class="submit-button" type="submit" value="Create">
+            </form>
+    </div>
+{% endblock %}

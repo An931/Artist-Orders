@@ -1,0 +1,14 @@
+{% if order.masterpiece %}
+    {% if order.masterpiece.customer_rate %}
+        <span class="badge badge-pill badge-secondary" style="font-size: 15px">Finished</span>
+    {% elif order.masterpiece.decline_message %}
+        <span class="badge badge-pill badge-danger" style="font-size: 15px">On rework</span>
+    {% else %}
+        <span class="badge badge-pill badge-info" style="font-size: 15px">Ready</span>
+    {% endif %}
+
+{% elif order.offer %}
+    <span class="badge badge-pill badge-warning" style="font-size: 15px">In progress</span>
+{% else %}
+    <span class="badge badge-pill badge-success" style="font-size: 15px">Open</span>
+{% endif %}

@@ -1,0 +1,11 @@
+django>=3.0.3
+django_object_actions
+phonenumbers
+django-phonenumber-field
+psycopg2-binary
+django-debug-toolbar
+django_extensions
+django-spurl
+celery
+redis
+gdal

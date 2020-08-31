@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-width">
+        <p class="form-message">Masterpiece</p>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table class="masterpiece-creation-form">
+                    {{ form.as_table }}
+                </table>
+                <input class="submit-button" type="submit" value="Save">
+            </form>
+    </div>
+{% endblock %}

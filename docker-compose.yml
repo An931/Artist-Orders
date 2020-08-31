@@ -1,0 +1,14 @@
+version: '3.3'
+
+volumes:
+  ipython_history: {}
+
+services:
+  postgres:
+    image: mdillon/postgis:10
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <form class="form-card" method="post">
+        <div class="confirm-message">Update order <strong>"{{ order.title }}"</strong>.</div>
+        {% csrf_token %}
+        <p>{{ form.as_p }}</p>
+        <input type="submit" value="Update" class="btn btn-lg btn-primary">
+        <span><a class="btn btn-secondary btn-lg" href="{% url 'orders:order-list' %}" role="button">Cancel</a></span>
+    </form>
+{% endblock %}

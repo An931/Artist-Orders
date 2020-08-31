@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="list-header d-flex justify-content-center">
+        <div>Artists</div>
+    </div>
+    {% include "../components/search.html" %}
+    <div class="list">
+        {% for artist in artists %}
+            <a href="{% url 'masterpieces:artist-masterpiece-list' artist_pk=artist.id %}"
+               class="list-card content-width-65" title="See more">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="user-name-card">{{ artist.get_full_name }}</div>
+                        {% with rating=artist.rating %}
+                            <div class="artist-card-rating">
+                                {% if rating %}
+                                    <div>
+                                        Average rating: <span class="badge badge-pill badge-warning">{{ rating }}</span>
+                                    </div>
+                                {% else %}
+                                    <div>No rates yet</div>
+                                {% endif %}
+                            </div>
+                        {% endwith %}
+                    </div>
+                    <div class="col-5">
+                        <div class="artist-card-information d-flex flex-column justify-content-center">
+                            <div>Joined at: <strong>{{ artist.date_joined }}</strong></div>
+                            <div>
+                                Completed orders:
+                                <span class="badge badge-pill badge-info">{{ artist.completed_orders_count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    {% if page_obj %}
+        {% include "../components/pagination.html" %}
+    {% else %}
+        <strong class="d-flex justify-content-center">No results</strong>
+    {% endif %}
+{% endblock %}

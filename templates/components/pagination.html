@@ -1,0 +1,37 @@
+{% load spurl %}
+<div>
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% spurl base=request.get_full_path set_query="page=1" %}">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   href="{% spurl base=request.get_full_path set_query="page={{ page_obj.previous_page_number }}" %}">
+                    Previous
+                </a>
+            </li>
+        {% endif %}
+
+        <li class="page-item">
+            <a class="page-link" href="{% spurl base=request.get_full_path set_query="page={{ page_obj.number }}" %}">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </a>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="{% spurl base=request.get_full_path set_query="page={{ page_obj.next_page_number }}" %}">
+                    Next
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                   href="{% spurl base=request.get_full_path set_query="page={{ page_obj.paginator.num_pages }}" %}">
+                    Last &raquo;
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

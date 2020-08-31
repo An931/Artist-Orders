@@ -1,0 +1,10 @@
+__pycache__
+__version__.py
+venv
+.idea
+.git
+.virtualenv
+*.log
+*.pyc
+*~
+config/media

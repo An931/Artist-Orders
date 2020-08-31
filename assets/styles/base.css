@@ -1,0 +1,270 @@
+header {
+    height: 90px;
+    top: 0;
+    background-color: #56286D;
+    color: azure;
+    font-weight: bold;
+    position: sticky;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+}
+
+.page-arrow {
+    width: 96px;
+    height: 96px;
+    bottom: 10px;
+    right: 10px;
+    position: fixed;
+    background-image: url('../images/arrow-up.png');
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.link {
+    text-decoration: none;
+    line-height: 90px;
+    color: inherit;
+    font-size: 22px;
+    display: inline-flex;
+    box-sizing: border-box;
+    padding-right: 35px;
+    padding-left: 35px;
+}
+
+.link:hover {
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
+}
+
+.logo {
+    height: 90px;
+    display: block;
+    width: 100%;
+}
+
+.logo img {
+    height: 80px;
+    padding: 5px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-color: #EEE7F1;
+}
+
+#content {
+    padding-top: 30px;
+    flex-grow: 1;
+}
+
+.content-width-center {
+    max-width: 1240px;
+    margin: auto;
+}
+
+.content-width-80 {
+    width: 80%;
+    margin: auto;
+}
+
+.content-width-65 {
+    width: 65%;
+    margin: auto;
+}
+
+footer {
+    background-color: #9C75B1;
+    height: 90px;
+    color: azure;
+    margin-top: 20px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.75);
+}
+
+.contacts {
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome-message {
+    font-size: 45px;
+}
+
+.list-header {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.site-info {
+    font-size: 25px;
+    padding-top: 40px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.list-card {
+    color: black;
+    background-color: #FFFBFD;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    padding: 25px;
+}
+
+.list-card:hover {
+    text-decoration: none;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+}
+
+.offer-list-card {
+    cursor: default;
+}
+
+.hover-link {
+    color: inherit;
+}
+
+.hover-link:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.order-title {
+    color: inherit;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.order-description {
+    padding: 10px;
+}
+
+.order-information {
+    font-size: 15px;
+}
+
+.order-creator {
+    padding-top: 5px;
+    padding-bottom: 15px;
+}
+
+.list-card:hover .order-information {
+    color: black;
+}
+
+.list-card:hover .artist-card-information {
+    color: black;
+}
+
+.pagination {
+    margin-top: 25px;
+}
+
+.info-page {
+    background-color: #FFFBFD;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    min-height: calc(100vh - 275px);
+    padding: 50px 50px 60px;
+}
+
+.free-height {
+    min-height: auto;
+}
+
+.order-info-title {
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.order-info-date {
+    font-size: 14px;
+}
+
+.order-info-description {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.order-files {
+    font-size: 15px;
+}
+
+.order-main-info {
+    margin: 20px 5px;
+}
+
+.user-name-card {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+
+.user-name {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.artist-card-rating {
+    margin-left: 30px;
+    font-size: 18px;
+}
+
+.artist-card-information {
+    font-size: 18px;
+    height: 100%;
+}
+
+.user-info-numbers {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.user-info-numbers div {
+    padding-top: 7px;
+}
+
+.user-main-info {
+    margin-bottom: 45px;
+    margin-top: 25px;
+}
+
+.artist-masterpieces {
+    margin-top: 25px;
+}
+
+.confirm-message {
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+
+.form-card {
+    margin-top: 40px;
+    color: black;
+    background-color: #FFFBFD;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+    padding: 75px 100px;
+    font-size: 18px;
+}

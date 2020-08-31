@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="list-header d-flex justify-content-center">
+        {% if user.role == 'ARTIST' %}
+            <div>Your offers</div>
+        {% elif user.role == 'CUSTOMER' %}
+            <div>Offers for
+                <a href="{% url 'orders:order-detail' pk=order.id %}" class="hover-link" title="View order">
+                    "{{ order.title|capfirst|truncatechars:40 }}"
+                </a>
+                order
+            </div>
+        {% endif %}
+    </div>
+    {% include "../components/search.html" %}
+    <div class="list">
+        {% for offer in offers %}
+            <div class="list-card offer-list-card content-width-65"
+                 {% if offer.declined_at %}style="color: rgba(0, 0, 0, 0.5);"{% endif %}>
+                <div class="row">
+                    <div class="col-8">
+                        {% if user.role == 'CUSTOMER' %}
+                            <div class="order-description" style="font-size:22px">
+                                <div><strong>Artist:</strong></div>
+                                {% with artist=offer.artist %}
+                                    <a href="{% url 'masterpieces:artist-masterpiece-list' artist_pk=artist.id %}"
+                                       title="Offer artists page">
+                                        <div>{{ artist.get_full_name }}</div>
+                                        <div>({{ artist.email }})</div>
+                                    </a>
+                                {% endwith %}
+                            </div>
+
+                        {% else %}
+                            <a href="{% url 'orders:order-detail' pk=offer.order.id %}"
+                               class="hover-link" title="View order">
+                                <div class="order-title" style="font-size:22px;">
+                                    {{ offer.order.title|capfirst|truncatechars:55 }}
+                                </div>
+                            </a>
+                        {% endif %}
+                        <div class="order-description" style="font-size:17px">
+                            <div>Created at: <strong>{{ offer.created_at }}</strong></div>
+                            {% if offer.updated_at %}
+                                <div>Updated at: <strong>{{ offer.updated_at }}</strong></div>
+                            {% endif %}
+                            <div style="margin-top:10px">
+                                Fee: <span class="badge badge-warning" style="font-size: 20px">{{ offer.fee }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="offer-information">
+                            {% if user.role == 'CUSTOMER' %}
+                                {% if offer.changes_requested %}
+                                    <div class="alert alert-primary" role="alert">
+                                        &bull; Fee changes requested
+                                    </div>
+                                {% else %}
+                                    <a class="btn btn-info btn-lg btn-block"
+                                       href="{% url 'offers:offer-request-changes' pk=offer.id %}" role="button">
+                                        Request fee changes
+                                    </a>
+                                {% endif %}
+                                <a class="btn btn-success btn-lg btn-block"
+                                   href="{% url 'offers:offer-accept' pk=offer.id %}" role="button">
+                                    Accept
+                                </a>
+                                <a class="btn btn-danger btn-lg btn-block"
+                                   href="{% url 'offers:offer-decline' pk=offer.id %}" role="button">
+                                    Decline
+                                </a>
+                            {% elif user.role == 'ARTIST' %}
+                                {% if not offer.declined_at %}
+                                    {% if offer.changes_requested %}
+                                        <div class="alert alert-primary" role="alert">
+                                            &bull; Fee changes requested
+                                        </div>
+                                    {% endif %}
+                                    <a class="btn btn-success btn-lg btn-block"
+                                       href="{% url 'offers:offer-update' pk=offer.id %}" role="button">
+                                        Change
+                                    </a>
+                                {% endif %}
+                                <a class="btn btn-secondary btn-lg btn-block"
+                                   href="{% url 'offers:offer-delete' pk=offer.id %}" role="button">
+                                    Delete
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if page_obj %}
+        {% include "../components/pagination.html" %}
+    {% else %}
+        <strong class="d-flex justify-content-center">No results</strong>
+    {% endif %}
+{% endblock %}

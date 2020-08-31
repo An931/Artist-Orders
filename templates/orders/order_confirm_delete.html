@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <form class="form-card" method="post">
+        {% csrf_token %}
+        <p class="confirm-message">Are you sure you want to delete order <strong>"{{ object }}"</strong>?</p>
+        <input type="submit" value="Confirm" class="btn btn-lg btn-danger">
+        <span><a class="btn btn-secondary btn-lg" href="{% url 'orders:order-detail' pk=order.id %}" role="button">
+            Cancel
+        </a></span>
+    </form>
+{% endblock %}

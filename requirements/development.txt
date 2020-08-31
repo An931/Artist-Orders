@@ -1,0 +1,10 @@
+-r base.txt
+
+ipython
+ipdb
+isort
+flake8
+flake8-docstrings
+factory_boy
+django-debug-toolbar
+django-debug-toolbar-template-timings

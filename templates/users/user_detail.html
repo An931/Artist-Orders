@@ -1,0 +1,48 @@
+<div class="info-page free-height content-width-80">
+    <div class="row">
+        <div class="col-8">
+            <div class="user-name">
+                {{ user.get_full_name }}
+                <span style="font-size:13px" class="badge badge-pill badge-danger">{{ user.role }}</span>
+            </div>
+            <div>Joined at: <strong>{{ user.date_joined }}</strong></div>
+            <div class="user-info-numbers">
+                {% if user.role == 'CUSTOMER' %}
+                    <div>
+                        Created orders count:
+                        <span class="badge badge-pill badge-info">{{ user.created_orders.count }}</span>
+                    </div>
+                {% elif user.role == 'ARTIST' %}
+                    <div>
+                        Completed orders:
+                        <span class="badge badge-pill badge-info">{{ user.completed_orders_count }}</span>
+                    </div>
+                    {% with rating=user.rating %}
+                        {% if rating %}
+                            <div>
+                                Average rating: <span class="badge badge-pill badge-warning">{{ rating }}</span>
+                            </div>
+                        {% else %}
+                            <div>No rates yet</div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="col-4">
+            <div class="user-main-info">
+                <div style="padding-bottom:10px;">Email: {{ user.email|urlize }}</div>
+                <div>Phone: {{ user.phone_number }}</div>
+            </div>
+            {% if customer or artist %}
+                <a class="btn btn-secondary btn-lg btn-block" href="/report" role="button">Report</a>
+                {# TODO: add url for user report #}
+            {% else %}
+                <a class="btn btn-success btn-lg btn-block" href="{% url 'users:user-update' pk=user.pk %}"
+                   role="button">Update profile</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

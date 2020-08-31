@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="info-page content-width-80">
+        <div class="row">
+            <div class="col-8">
+                <div class="order-info-title">
+                    {{ order.title|capfirst }}
+                    {% include 'orders/order_status.html' %}
+                </div>
+
+                <div class="order-tags">
+                    {% for tag in order.tags.all %}
+                        <span class="badge badge-pill badge-info">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="order-info-description">
+                    {{ order.description|capfirst }}
+                </div>
+                {% with files=order.files.all %}
+                    {% if files %}
+                        <div class="order-files">
+                            <p>Files:</p>
+                            {% for file in files %}
+                                <p><a href="{% get_media_prefix %}{{ file.link }}">{{ file }}</a></p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <div class="order-views-count">
+                    {{order.views}} 👁
+                </div>
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3">
+                <div class="order-main-info">
+                    <div>Created by:</div>
+                    {% with created_user=order.created_by %}
+                        <a href="{% url 'orders:customer-orders-list' customer_pk=created_user.id %}"
+                           title="Order creator page">
+                            {{ created_user.get_full_name }} ({{ created_user.email }})
+                        </a>
+                    {% endwith %}
+                </div>
+
+                {% if not order.offer %}
+                    <div class="order-main-info">
+                        <div>Complete to:</div>
+                        <div><strong>{{ order.complete_to }}</strong></div>
+                    </div>
+                    {% if user.role == 'ARTIST' %}
+                        <a class="btn btn-success btn-lg btn-block"
+                           href="{% url 'orders:send-offer' order_id=order.id %}" role="button">Offer</a>
+                        <a class="btn btn-secondary btn-lg btn-block" href="/report" role="button">Report</a>
+                        {# TODO: replase href on url tag #}
+                    {% elif user.role == 'CUSTOMER' and order.created_by == user %}
+                        <a class="btn btn-primary btn-lg btn-block" title="View order offers"
+                           href="{% url 'offers:order-offers-list' order_pk=order.id %}" role="button">
+                            View offers <span class="badge badge-light">{{ order.offers.all_available.count }}</span>
+                        </a>
+                        <a class="btn btn-success btn-lg btn-block" href="{% url 'orders:order-update' pk=order.id %}"
+                           role="button">Update</a>
+                        <a class="btn btn-danger btn-lg btn-block" href="{% url 'orders:order-delete' pk=order.id %}"
+                           role="button">Delete</a>
+                    {% endif %}
+                {% else %}
+                    <div class="order-main-info">
+                        {% if order.masterpiece %}
+                            <div>Completed by:</div>
+                        {% elif order.offer %}
+                            <div>Accepted artist:</div>
+                        {% endif %}
+                        {% with artist=order.offer.artist %}
+                            <a href="{% url 'masterpieces:artist-masterpiece-list' artist_pk=artist.id %}" title="Artist page">
+                                {{ artist.get_full_name }} ({{ artist.email }})
+                            </a>
+                        {% endwith %}
+                    </div>
+                    <div class="order-main-info">
+                        {% if user.role == 'CUSTOMER' and order.created_by == user %}
+                            <div>Fee:</div>
+                            <strong>{{ order.offer.fee }}</strong>
+                        {% endif %}
+                    </div>
+                    {% if user == order.offer.artist and not order.masterpiece %}
+                        <a class="btn btn-success btn-lg btn-block"
+                           href="{% url 'masterpieces:upload-masterpiece' order_pk=order.id %}" role="button">
+                            Add masterpiece
+                        </a>
+                    {% endif %}
+                    {% if order.masterpiece %}
+                        <a class="btn btn-success btn-lg btn-block"
+                           href="{% url 'masterpieces:masterpiece-detail' pk=order.masterpiece.id %}" role="button">
+                            Go to masterpiece
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="order-info-date">
+                            <div>Created at:</div>
+                            <div>{{ order.created_at }}</div>
+                        </div>
+                    </li>
+
+                    {% if order.updated_at %}
+                        <li class="list-group-item">
+                            <div class="order-info-date">
+                                <div>Last update:</div>
+                                <div>{{ order.updated_at }}</div>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                    {% if order.offer %}
+                        <li class="list-group-item">
+                            <div class="order-info-date">
+                                <div>Started at:</div>
+                                <div>{{ order.offer.accepted_at }}</div>
+                            </div>
+                        </li>
+                    {% endif %}
+
+                    {% if order.completed_at %}
+                        <li class="list-group-item">
+                            <div class="order-info-date">
+                                <div>Completed at:</div>
+                                <div>{{ order.completed_at }}</div>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

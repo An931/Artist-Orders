@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if customer %}
+        {% include "../users/user_detail.html" with user=customer %}
+    {% endif %}
+    <div class="list-header d-flex justify-content-center">
+        <div>Available orders</div>
+    </div>
+    {% include "../components/search.html" %}
+    <div class="list">
+        {% for order in orders %}
+            <a href="{% url 'orders:order-detail' pk=order.id %}" class="list-card content-width-80"
+               {% if order.completed_at %}style="color: rgba(0, 0, 0, 0.5);"{% endif %} title="See more">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="order-title">
+                            {{ order.title|capfirst|truncatechars:55 }}
+                            {% include 'orders/order_status.html' %}
+                        </div>
+
+                        <div class="order-description">{{ order.description|capfirst|truncatechars:240 }}</div>
+                        <div class="order-tags">
+                            {% for tag in order.tags.all %}
+                                <span class="badge badge-pill badge-info">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="order-information">
+                            {% if user.role == 'CUSTOMER' %}
+                                {% if not order.offer %}
+                                    <button type="button" class="btn btn-lg btn-block btn-primary">
+                                        Offers
+                                        <span class="badge badge-light">{{ order.offers.all_available.count }}</span>
+                                    </button>
+                                {% else %}
+                                    <div class="order-creator">
+                                        Accepted artist: <strong>{{ order.offer.artist.email }}</strong>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="order-creator">From: <strong>{{ order.created_by.email }}</strong></div>
+                            {% endif %}
+                            <div>Created at: <strong>{{ order.created_at }}</strong></div>
+                            {% if not order.completed_at %}
+                                <div>Complete to: <strong>{{ order.complete_to }}</strong></div>
+                            {% else %}
+                                <div>Completed at: <strong>{{ order.completed_at }}</strong></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    {% if page_obj %}
+        {% include "../components/pagination.html" %}
+    {% else %}
+        <strong class="d-flex justify-content-center">No results</strong>
+    {% endif %}
+{% endblock %}

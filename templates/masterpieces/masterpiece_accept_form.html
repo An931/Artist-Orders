@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <form class="form-card" method="post">
+        <div class="confirm-message">Accept masterpiece <strong>"{{ masterpiece.title }}"</strong>.</div>
+        {% csrf_token %}
+        <p>{{ form.as_p }}</p>
+        <input type="submit" value="Accept" class="btn btn-lg btn-primary">
+        <span>
+            <a class="btn btn-secondary btn-lg" href="{% url 'masterpieces:masterpiece-detail' pk=masterpiece.pk %}"
+               role="button">
+                Cancel
+            </a>
+        </span>
+    </form>
+{% endblock %}

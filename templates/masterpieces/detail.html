@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="info-page content-width-80">
+        <div class="row">
+            <div class="col-8">
+                <div class="order-info-title">
+                    {{ masterpiece.title|capfirst }}
+                </div>
+
+                <div class="order-tags">
+                    {% for tag in masterpiece.tags.all %}
+                        <span class="badge badge-pill badge-info">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="order-info-description">
+                    {{ masterpiece.description|capfirst }}
+                </div>
+                {% with files=masterpiece.files.all %}
+                    {% if files %}
+                        <div class="order-files">
+                            <p>Files:</p>
+                            {% for file in files %}
+                                <p><a href="{% get_media_prefix %}{{ file.link }}">{{ file }}</a></p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3">
+                <div class="order-main-info">
+                    <div>Created artist:</div>
+                    {% with artist=masterpiece.artist %}
+                        <a href="{% url 'masterpieces:artist-masterpiece-list' artist_pk=artist.id %}"
+                           title="Masterpiece artists page">
+                            {{ artist.get_full_name }} ({{ artist.email }})
+                        </a>
+                    {% endwith %}
+                </div>
+                <div class="order-main-info">
+                    <div>Created at:</div>
+                    <div><strong>{{ masterpiece.created_at }}</strong></div>
+                </div>
+                {% if masterpiece.updated_at %}
+                    <div class="order-main-info">
+                        <div>Updated at:</div>
+                        <div><strong>{{ masterpiece.updated_at }}</strong></div>
+                    </div>
+                {% endif %}
+                {% if masterpiece.order %}
+                    {% if user == masterpiece.order.created_by or user == masterpiece.artist %}
+                        Status:
+                        <div class="alert alert-primary" role="alert" style="text-align:center">
+                            {% if masterpiece.customer_rate %}
+                                Accepted
+                            {% elif masterpiece.decline_message %}
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        title="Viev decline message" data-target="#declineMessageModal">
+                                    Changes requested
+                                </button>
+                                {% include 'masterpieces/changes_request_modal.html' %}
+                            {% else %}
+                                New
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if user == masterpiece.order.created_by and not masterpiece.customer_rate %}
+                        <a class="btn btn-success btn-lg btn-block" role="button"
+                           href="{% url 'masterpieces:masterpiece-accept' pk=masterpiece.pk %}">
+                            Accept
+                        </a>
+                        <a class="btn btn-danger btn-lg btn-block" role="button"
+                           title="Ask artist to rework masterpiece"
+                           href="{% url 'masterpieces:masterpiece-decline' pk=masterpiece.pk %}">
+                            Decline
+                        </a>
+                    {% endif %}
+                {% endif %}
+                {% if user != masterpiece.artist %}
+                    <a class="btn btn-secondary btn-lg btn-block" href="/report" role="button">Report</a>
+                    {# TODO: replase href on url tag report #}
+                {% elif not masterpiece.customer_rate %}
+                    <a class="btn btn-success btn-lg btn-block" role="button"
+                       href="{% url 'masterpieces:masterpiece-update' pk=masterpiece.pk %}">
+                        Update
+                    </a>
+                    <a class="btn btn-danger btn-lg btn-block" role="button"
+                       href="{% url 'masterpieces:masterpiece-delete' pk=masterpiece.pk %}">
+                        Delete
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

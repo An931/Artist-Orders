@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="form-card">
+        <div class="confirm-message">Update profile</div>
+        <form method="post">
+            {% csrf_token %}
+            <p>{{ form.as_p }}</p>
+            <input type="submit" value="Confirm" class="btn btn-lg btn-primary">
+            <span><a class="btn btn-secondary btn-lg" href="{% url 'users:user-detail' pk=user.pk %}" role="button">
+                Cancel
+            </a></span>
+        </form>
+    </div>
+{% endblock %}
